@@ -4,6 +4,8 @@ from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 from environs import Env
 
+from dialog_flow_lib import fetch_intent_response
+
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
 )
@@ -25,15 +27,19 @@ def help_command(update: Update, context: CallbackContext) -> None:
     update.message.reply_text('Help!')
 
 
-def echo(update: Update, context: CallbackContext) -> None:
-    """Echo the user message."""
-    update.message.reply_text(update.message.text)
+def greeting(update: Update, context: CallbackContext) -> None:
+    user_message = update.message.text
+    response = fetch_intent_response(
+    update.message.from_user.id,
+    user_message,
+    )
+    update.message.reply_text(response)
 
 
 def main() -> None:
     env = Env()
     updater = Updater(env.str('TG_BOT_TOKEN'))
-
+    google_project_id = env.str('GOOGLE_PROJECT_ID')
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
 
@@ -42,7 +48,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("help", help_command))
 
     # on non command i.e message - echo the message on Telegram
-    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
+    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, greeting))
 
     # Start the Bot
     updater.start_polling()
