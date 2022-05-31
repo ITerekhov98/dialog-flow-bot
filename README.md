@@ -1,4 +1,7 @@
 # VK и TG боты для техподдержки с интеграцией DialogFlow
+
+![Иллюстрация к проекту]([https://github.com/ITerekhov98/chat_bots_lesson_3/Анимация.gif](https://github.com/ITerekhov98/chat_bots_lesson_3/%D0%90%D0%BD%D0%B8%D0%BC%D0%B0%D1%86%D0%B8%D1%8F.gif))
+
 ### Ссылки на работающих ботов:
 - [VK](https://vk.com/club213637331)
 - [Telegram](https://t.me/sam_isdat_bot)
