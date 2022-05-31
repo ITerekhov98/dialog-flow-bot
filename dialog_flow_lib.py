@@ -15,7 +15,7 @@ def fetch_intent_response(session_id, text, language_code='ru'):
     response = session_client.detect_intent(
         request={"session": session, "query_input": query_input}
     )
-    return response.query_result.fulfillment_text
+    return response
 
 def add_intents(filepath_to_questions:str):
     project_id = env.str('GOOGLE_PROJECT_ID')

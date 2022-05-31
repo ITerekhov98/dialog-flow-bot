@@ -33,7 +33,7 @@ def greeting(update: Update, context: CallbackContext) -> None:
     update.message.from_user.id,
     user_message,
     )
-    update.message.reply_text(response)
+    update.message.reply_text(response.query_result.fulfillment_text)
 
 
 def main() -> None:
