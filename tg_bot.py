@@ -7,21 +7,10 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, \
     Filters, CallbackContext
 
 from dialog_flow_lib import fetch_intent_response
-from service_tg_bot import report_about_error
+from log_hadler import LogsHandler
+
 
 logger = logging.getLogger('tg_bot')
-
-
-class TelegramLogsHandler(logging.Handler):
-
-    def __init__(self, tg_bot_token, chat_id):
-        super().__init__()
-        self.chat_id = chat_id
-        self.tg_bot_token = tg_bot_token
-
-    def emit(self, record):
-        log_entry = f'Exception in Tg_bot: \n{self.format(record)}'
-        report_about_error(self.tg_bot_token, self.chat_id, log_entry)
 
 
 def start(update: Update, context: CallbackContext) -> None:
@@ -60,9 +49,10 @@ def main() -> None:
         )
     )
     logger.setLevel(logging.WARNING)
-    logger.addHandler(TelegramLogsHandler(
+    logger.addHandler(LogsHandler(
         env.str('TG_BOT_TOKEN'),
-        env.str('SERVICE_TG_CHAT_ID')
+        env.str('SERVICE_TG_CHAT_ID'),
+        'TG_bot',
         )
     )
     while True:

@@ -7,22 +7,10 @@ import vk_api as vk
 from vk_api.longpoll import VkLongPoll, VkEventType
 
 from dialog_flow_lib import fetch_intent_response
-from service_tg_bot import report_about_error
+from log_hadler import LogsHandler
 
 
 logger = logging.getLogger('vk_bot')
-
-
-class VkLogsHandler(logging.Handler):
-
-    def __init__(self, tg_bot_token, chat_id):
-        super().__init__()
-        self.chat_id = chat_id
-        self.tg_bot_token = tg_bot_token
-
-    def emit(self, record):
-        log_entry = f'Exception in VK_bot: \n{self.format(record)}'
-        report_about_error(self.tg_bot_token, self.chat_id, log_entry)
 
 
 def reply_using_dialog_flow(event, vk_api):
@@ -42,9 +30,10 @@ def reply_using_dialog_flow(event, vk_api):
 def main():
     env = Env()
     logger.setLevel(logging.WARNING)
-    logger.addHandler(VkLogsHandler(
+    logger.addHandler(LogsHandler(
         env.str('TG_BOT_TOKEN'),
-        env.str('SERVICE_TG_CHAT_ID')
+        env.str('SERVICE_TG_CHAT_ID'),
+        'VK_bot',
         )
     )
     vk_session = vk.VkApi(token=env.str('VK_API_TOKEN'))
