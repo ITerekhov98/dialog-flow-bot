@@ -22,11 +22,6 @@ def start(update: Update, context: CallbackContext) -> None:
     )
 
 
-def help_command(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /help is issued."""
-    update.message.reply_text('Help!')
-
-
 def reply_using_dialog_flow(update: Update, context: CallbackContext) -> None:
     user_message = update.message.text
     response = fetch_intent_response(
