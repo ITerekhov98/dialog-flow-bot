@@ -33,11 +33,11 @@ def reply_using_dialog_flow(update: Update, context: CallbackContext) -> None:
 
 def main() -> None:
     env = Env()
+    env.read_env()
     updater = Updater(env.str('TG_BOT_TOKEN'))
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(CommandHandler("help", help_command))
     dispatcher.add_handler(MessageHandler(
         Filters.text & ~Filters.command,
         reply_using_dialog_flow

@@ -29,6 +29,7 @@ def reply_using_dialog_flow(event, vk_api):
 
 def main():
     env = Env()
+    env.read_env()
     logger.setLevel(logging.WARNING)
     logger.addHandler(LogsHandler(
         env.str('TG_BOT_TOKEN'),
